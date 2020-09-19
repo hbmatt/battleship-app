@@ -10,21 +10,20 @@ test('creates hit array equal to length', () => {
   expect(ship.hits).toEqual([0,0,0,0,0])
 })
 
-test('initializes with sunk false', () => {
-  expect(ship.sunk).toBeFalsy()
-})
-
 test('should change ship.hit', () => {
   ship.hit(5);
   expect(ship.hits).toEqual([0,0,0,0,1])
 })
 
-test('should change ship.sunk', () => {
+test('should return ship not sunk', () => {
+  expect(ship.isSunk()).toBeFalsy()
+})
+
+test('should return ship sunk', () => {
   ship.hit(4);
   ship.hit(3);
   ship.hit(2);
   ship.hit(1);
-  ship.isSunk();
-  expect(ship.sunk).toBeTruthy();
+  expect(ship.isSunk()).toBeTruthy();
 })
 
