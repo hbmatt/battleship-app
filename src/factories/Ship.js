@@ -10,8 +10,7 @@ class Ship {
   };
 
   isSunk = () => {
-    this.sunk =
-      this.hits.every((i) => i === 1) ? true : false;
+    this.sunk = this.hits.every((i) => i === 1) ? true : false;
   };
 }
 
