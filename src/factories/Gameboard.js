@@ -2,7 +2,7 @@ import { Ship } from "./Ship";
 
 class Gameboard {
   constructor() {
-    this.grid = {};
+    this.grid = [];
     for (let i = 0; i < 10; i++) {
       this.grid[i] = Array(10).fill(0);
     }
@@ -54,8 +54,8 @@ class Gameboard {
   };
 
   isOffBoard(direction, x, y, length) {
-    return (direction === "horizontal" && x + length < 10) ||
-      (direction === "vertical" && y + length < 10)
+    return (direction === "horizontal" && x + length - 1 < 10) ||
+      (direction === "vertical" && y + length - 1 < 10)
       ? false
       : true;
   }

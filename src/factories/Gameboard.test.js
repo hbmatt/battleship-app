@@ -90,3 +90,13 @@ test('should report all ships sunk', () => {
   expect(board.areAllSunk()).toBeTruthy();
 })
 
+test('should add more than one ship', () => {
+  let board = new Gameboard();
+  board.placeShip(3, [1,1], 'horizontal');
+  board.placeShip(3, [1,3], 'horizontal');
+  board.placeShip(5, [5,1], 'vertical');
+  board.placeShip(4, [9,1], 'vertical');
+  board.placeShip(2, [9,10], 'horizontal');
+  expect(board.ships.length).toBe(5);
+})
+
