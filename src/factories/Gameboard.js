@@ -39,7 +39,7 @@ class Gameboard {
     const x = coordinates[0] - 1;
     const y = coordinates[1] - 1;
 
-    if (this.grid[x][y] !== 0) {
+    if (this.grid[x][y] > 0) {
       const id = this.grid[x][y];
       const position = this.ships[id - 1].position.indexOf(`${x}, ${y}`);
       this.ships[id - 1].ship.hit(position + 1);

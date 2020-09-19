@@ -60,3 +60,11 @@ body, html {
 .miss {
   background-color: yellow;
 }
+
+.open {
+  cursor: pointer;
+}
+
+.open:hover {
+  background-color: #eee;
+}

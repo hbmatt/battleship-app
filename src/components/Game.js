@@ -10,9 +10,9 @@ export class Game extends Component {
     const computer = new Player("computer");
     player.enemy = computer;
     computer.enemy = player;
-    this.state = { player, computer };
     this.placeAllShips(player);
     this.placeAllShips(computer);
+    this.state = { player, computer };
   }
 
   placeAllShips = (player) => {
@@ -23,17 +23,23 @@ export class Game extends Component {
     player.board.placeShip(2, [9, 10], "horizontal");
   };
 
+  getAttack = (coord) => {
+    coord = coord.split(',');
+    this.state.player.attack(coord);
+    this.setState({ player: this.state.player, computer: this.state.computer });
+  }
+
   render() {
     return (
       <div className="container">
         <div className="col">
           <div className="grid">
-            <Board player={this.state.player} />
+            <Board player={this.state.player} getAttack={this.getAttack} />
           </div>
         </div>
         <div className="col">
           <div className="grid">
-            <Board player={this.state.computer} />
+            <Board player={this.state.computer} getAttack={this.getAttack} />
           </div>
         </div>
       </div>
