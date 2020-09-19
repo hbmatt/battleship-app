@@ -11,7 +11,7 @@ class Ship {
 
   isSunk = () => {
     this.sunk =
-      this.hits.filter((i) => i === 1).length === this.length ? true : false;
+      this.hits.every((i) => i === 1) ? true : false;
   };
 }
 
