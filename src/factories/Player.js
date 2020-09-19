@@ -19,12 +19,12 @@ class Player {
     return this.attacks.find(
       (pos) => pos === `${coordinates[0] - 1}, ${coordinates[1] - 1}`
     )
-      ? true
-      : false;
+      ? false
+      : true;
   }
 
   getRandCoord() {
-    return [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10)];
+    return [Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1];
   }
 }
 

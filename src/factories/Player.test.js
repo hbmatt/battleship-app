@@ -30,7 +30,7 @@ test('should record made attacks', () => {
 
 test('should allow computer to make random attacks', () => {
   enemy.attack();
-  expect(enemy.attacks).toBeTruthy();
+  expect(enemy.attacks[0]).toBeTruthy();
 })
 
 test('should not allow computer to shoot same coordinate twice', () => {
