@@ -24,10 +24,10 @@ export class Game extends Component {
   };
 
   getAttack = (coord) => {
-    coord = coord.split(',');
+    coord = coord.split(",");
     this.state.player.attack(coord);
     this.setState({ player: this.state.player, computer: this.state.computer });
-  }
+  };
 
   render() {
     return (
