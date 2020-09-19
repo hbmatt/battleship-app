@@ -12,7 +12,7 @@ export class Game extends Component {
     computer.enemy = player;
     this.placeAllShips(player);
     this.placeAllShips(computer);
-    this.state = { player, computer };
+    this.state = { player, computer, turn: 1 };
   }
 
   placeAllShips = (player) => {
@@ -26,7 +26,25 @@ export class Game extends Component {
   getAttack = (coord) => {
     coord = coord.split(",");
     this.state.player.attack(coord);
-    this.setState({ player: this.state.player, computer: this.state.computer });
+    this.setState({
+      player: this.state.player,
+      computer: this.state.computer,
+      turn: this.state.turn + 1,
+    });
+
+    this.computerAttack();
+  };
+
+  computerAttack = () => {
+    if (this.state.computer.attack() === false) {
+      this.computerAttack();
+    } else {
+      this.setState({
+        player: this.state.player,
+        computer: this.state.computer,
+        turn: this.state.turn + 1,
+      });
+    }
   };
 
   render() {
