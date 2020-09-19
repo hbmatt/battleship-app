@@ -24,14 +24,18 @@ export class Game extends Component {
   };
 
   getAttack = (coord) => {
+    if (this.state.turn % 2 === 0 || this.state.winner) return;
+
     coord = coord.split(",");
     this.state.player.attack(coord);
+    let turn = this.state.turn + 1;
     this.setState({
       player: this.state.player,
       computer: this.state.computer,
-      turn: this.state.turn + 1,
+      turn
     });
 
+    this.isGameOver();
     this.computerAttack();
   };
 
@@ -39,25 +43,46 @@ export class Game extends Component {
     if (this.state.computer.attack() === false) {
       this.computerAttack();
     } else {
+      let turn = this.state.turn + 2;
       this.setState({
         player: this.state.player,
         computer: this.state.computer,
-        turn: this.state.turn + 1,
+        turn
       });
     }
+    this.isGameOver();
   };
+
+  isGameOver = () => {
+    if (this.state.player.board.areAllSunk()) {
+      this.setState({ winner: this.state.computer.name });
+    } else if (this.state.computer.board.areAllSunk()) {
+      this.setState({ winner: this.state.player.name });
+    } else {
+      return false;
+    }
+
+    this.declareWinner();
+  }
+
+  declareWinner = () => {
+    return (this.state.winner) ? "title" : "is-hidden"
+  }
 
   render() {
     return (
       <div className="container">
-        <div className="col">
-          <div className="grid">
-            <Board player={this.state.player} getAttack={this.getAttack} />
+        <h1 className={this.declareWinner()}>Winner: {this.state.winner}</h1>
+        <div className="board-wrapper">
+          <div className="board">
+            <div className="grid">
+              <Board player={this.state.player} getAttack={this.getAttack} />
+            </div>
           </div>
-        </div>
-        <div className="col">
-          <div className="grid">
-            <Board player={this.state.computer} getAttack={this.getAttack} />
+          <div className="board">
+            <div className="grid">
+              <Board player={this.state.computer} getAttack={this.getAttack} />
+            </div>
           </div>
         </div>
       </div>

@@ -21,13 +21,22 @@ html {
   height: 100%;
   width: 100%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.col {
-  width: 500px;
-  height: 500px;
+.board-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.board {
+  height: 60vh;
+  width: 60vh;
+  max-height: 500px;
+  max-width: 500px;
   padding: 30px;
   border: 10px solid red;
 }
@@ -68,4 +77,18 @@ html {
 
 .open:hover {
   background-color: #eee;
+}
+
+h1 {
+  display: block;
+  width: 100%;
+  text-align: center;
+}
+
+.is-hidden {
+  display: none!important;
+}
+
+.title {
+  color: red;
 }
