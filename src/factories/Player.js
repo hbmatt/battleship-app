@@ -6,14 +6,17 @@ class Player {
     this.enemy = "";
     this.board = new Gameboard();
     this.attacks = [];
-    this.successfulAttack = [];
+    this.successfulAttack = null;
     this.attackQueue = [];
   }
 
   attack = (coordinates = this.getRandCoord()) => {
     if (this.name === "computer" && !this.isLegal(coordinates)) return false;
-    if (this.successfulAttack.length > 1) {
+    if (this.successfulAttack) {
       this.getAdjacentCoords();
+      coordinates = this.attackQueue[0];
+      this.attackQueue.shift();
+    } else if (this.attackQueue.length > 0) {
       coordinates = this.attackQueue[0];
       this.attackQueue.shift();
     }
@@ -24,6 +27,8 @@ class Player {
     if (this.name === "computer" && success) {
       this.successfulAttack = coordinates;
       this.attackQueue = [];
+    } else {
+      this.successfulAttack = null;
     }
   };
 
