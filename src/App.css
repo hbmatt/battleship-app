@@ -1,3 +1,5 @@
+@import url("http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css");
+
 body,
 html {
   margin: 0;
@@ -84,12 +86,16 @@ html {
 }
 
 .buttons button {
+  width: 53px;
+  height: 53px;
   border: none;
   background-color: #eee;
-  padding: 15px 25px;
-  border-radius: 5px;
+  padding: 15px 20px;
+  margin: 5px;
+  border-radius: 50%;
   cursor: pointer;
   font-size: 1rem;
+  text-align: center;
 }
 
 .buttons button:hover {
@@ -126,7 +132,7 @@ html {
 .column:first-child {
   border-left: 1px solid grey;
   width: calc(100% + 1px);
-  margin-left: 1px;
+  margin-left: -1px;
 }
 
 .column:last-child {

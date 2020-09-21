@@ -16,6 +16,19 @@ export class Game extends Component {
     this.state = { player, computer, turn: 1, completed: false };
   }
 
+  autoPlace = () => {
+    this.state.player.board.resetShips();
+    this.state.player.board.autoplaceShips();
+
+    this.setState({ player: this.state.player });
+  }
+
+  clearBoard = () => {
+    this.state.player.board.resetShips();
+    
+    this.setState({ player: this.state.player });
+  }
+
   getAttack = (coord) => {
     if (this.state.turn % 2 === 0 || this.state.winner) return;
 
@@ -71,7 +84,7 @@ export class Game extends Component {
         <h1 className={this.declareWinner()}>Winner: {this.state.winner}</h1>
         <div className="wrapper">
           <div className="ships-wrapper">
-            <Ships />
+            <Ships autoPlace={this.autoPlace} clearBoard={this.clearBoard} />
           </div>
           <div className="board-wrapper">
             <div className="board">
