@@ -54,6 +54,10 @@ class Gameboard {
       i--;
     }
   }
+
+  resetShips = () => {
+    this.ships = [];
+  }
  
   receiveAttack = (coordinates) => {
     const x = coordinates[0] - 1;

@@ -106,4 +106,12 @@ test('should autoplace all ships', () => {
   expect(board.ships.length).toBe(5);
 })
 
+test('should clear all ships', () => {
+  let board = new Gameboard();
+  board.autoplaceShips();
+  board.resetShips();
+  expect(board.ships.length).toBe(0);
+})
+
+
 
