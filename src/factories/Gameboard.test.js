@@ -113,5 +113,13 @@ test('should clear all ships', () => {
   expect(board.ships.length).toBe(0);
 })
 
+test('should clear grid of ships', () => {
+  let board = new Gameboard();
+  board.placeShip(3, [1,1], 'horizontal');
+  board.resetShips();
+  expect(board.grid[0][0]).toBe(0);
+  expect(board.grid[1][0]).toBe(0);
+  expect(board.grid[2][0]).toBe(0);
+})
 
 

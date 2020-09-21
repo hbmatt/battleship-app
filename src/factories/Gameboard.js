@@ -57,6 +57,10 @@ class Gameboard {
 
   resetShips = () => {
     this.ships = [];
+    this.grid = [];
+    for (let i = 0; i < 10; i++) {
+      this.grid[i] = Array(10).fill(0);
+    }
   }
  
   receiveAttack = (coordinates) => {
