@@ -163,8 +163,24 @@ html {
   border: 1px solid grey;
 }
 
-.cell.ship {
+.cell.carrier {
   background-color: blue;
+}
+
+.cell.battleship {
+  background-color: mediumaquamarine;
+}
+
+.cell.destroyer {
+  background-color: mediumslateblue;
+}
+
+.cell.submarine {
+  background-color: mediumturquoise;
+}
+
+.cell.patrol {
+  background-color: mediumvioletred;
 }
 
 .cell.hit {

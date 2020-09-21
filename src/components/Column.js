@@ -14,14 +14,22 @@ export class Column extends Component {
     }
 
     switch (cell) {
-      case 0:
-        return "cell";
+      case 1:
+        return "cell carrier"
+      case 2:
+        return "cell battleship"
+      case 3:
+        return "cell destroyer"
+      case 4:
+        return "cell submarine"
+      case 5:
+        return "cell patrol"
       case "X":
         return "cell hit";
       case "O":
         return "cell miss";
       default:
-        return "cell ship";
+        return "cell";
     }
   };
 
