@@ -9,21 +9,21 @@ export class Column extends Component {
         case "O":
           return "cell miss";
         default:
-          return (this.props.completed) ? "cell" : "cell open";
+          return this.props.completed ? "cell" : "cell open";
       }
     }
 
     switch (cell) {
       case 1:
-        return "cell carrier"
+        return "cell carrier";
       case 2:
-        return "cell battleship"
+        return "cell battleship";
       case 3:
-        return "cell destroyer"
+        return "cell destroyer";
       case 4:
-        return "cell submarine"
+        return "cell submarine";
       case 5:
-        return "cell patrol"
+        return "cell patrol";
       case "X":
         return "cell hit";
       case "O":
@@ -33,19 +33,28 @@ export class Column extends Component {
     }
   };
 
+  getText = (cell) => {
+    switch (cell) {
+      case "O":
+        return <i className="fa fa-circle"></i>;
+      default:
+        return "";
+    }
+  };
+
   render() {
-    return this.props.col
-      .reverse()
-      .map((cell, id) => (
-        <div
-          key={`${this.props.colId}${10 - id}`}
-          className={this.getClass(cell)}
-          onClick={this.props.getAttack.bind(
-            this,
-            `${this.props.colId},${10 - id}`
-          )}
-        ></div>
-      ));
+    return this.props.col.reverse().map((cell, id) => (
+      <div
+        key={`${this.props.colId}${10 - id}`}
+        className={this.getClass(cell)}
+        onClick={this.props.getAttack.bind(
+          this,
+          `${this.props.colId},${10 - id}`
+        )}
+      >
+        {this.getText(cell)}
+      </div>
+    ));
   }
 }
 

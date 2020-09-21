@@ -53,6 +53,7 @@ html {
 
 .ships.vertical {
   flex-direction: row;
+  justify-content: center;
 }
 
 .ships.horizontal {
@@ -85,8 +86,32 @@ html {
   flex-direction: column;
 }
 
+.ships.ship.vertical:nth-child(4) {
+  margin-left: 52px;
+}
+
 .ships .ship.sunk .block {
-  background-color: red;
+  background-color: #e45434;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ship.sunk .block::before, .ship.sunk .block::after {
+  position: absolute;
+  content: '';
+  height: 1px;
+  width: 100%;
+  background-color: black;
+}
+
+.ship.sunk .block::before {
+  transform: rotate(45deg);
+}
+
+.ship.sunk .block::after {
+  transform: rotate(-45deg);
 }
 
 .block {
@@ -127,12 +152,13 @@ html {
 }
 
 .board {
-  height: 400px;
-  width: 400px;
-  padding: 19px 20px;
-  border: 10px solid red;
+  height: 351px;
+  width: 351px;
+  border: 1px solid #ccc;
   display: grid;
   grid-template-columns: repeat(10, 1fr);
+  grid-column-gap: 1px;
+  background-color: #ccc;
 }
 
 .board:first-of-type {
@@ -142,53 +168,67 @@ html {
 .column {
   height: 100%;
   width: 100%;
-  border-top: 1px solid grey;
-  border-bottom: 1px solid grey;
-}
-
-.column:first-child {
-  border-left: 1px solid grey;
-  width: calc(100% + 1px);
-  margin-left: -1px;
-}
-
-.column:last-child {
-  border-right: 1px solid grey;
-  width: calc(100% + 1px);
-  margin-right: 1px;
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+  grid-row-gap: 1px;
 }
 
 .cell {
-  height: 10%;
-  border: 1px solid grey;
+  background-color: #fff;
 }
 
 .cell.carrier {
-  background-color: blue;
+  background-color: #71cac4;
 }
 
 .cell.battleship {
-  background-color: mediumaquamarine;
+  background-color:#fbad4b;
 }
 
 .cell.destroyer {
-  background-color: mediumslateblue;
+  background-color:#00aee0;
 }
 
 .cell.submarine {
-  background-color: mediumturquoise;
+  background-color:#f3778f;
 }
 
 .cell.patrol {
-  background-color: mediumvioletred;
+  background-color: #e2e647;
 }
 
 .cell.hit {
-  background-color: red;
+  background-color: #fff9a4;
+  position: relative;
+  height: 34px;
+  width: 34px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cell.hit::before, .cell.hit::after {
+  position: absolute;
+  content: '';
+  height: 1px;
+  width: 100%;
+  background-color: black;
+}
+
+.cell.hit::before {
+  transform: rotate(45deg);
+}
+
+.cell.hit::after {
+  transform: rotate(-45deg);
 }
 
 .cell.miss {
-  background-color: yellow;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 6px;
 }
 
 .cell.open {

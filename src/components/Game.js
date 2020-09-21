@@ -44,6 +44,9 @@ export class Game extends Component {
     let player = this.state.player;
 
     coord = coord.split(",");
+
+    if (!player.isLegal(coord)) return;
+
     player.attack(coord);
 
     let computer = player.enemy;

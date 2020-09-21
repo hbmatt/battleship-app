@@ -36,13 +36,13 @@ export class Ships extends Component {
           ))}
         </div>
         <div className="buttons">
-          <button onClick={this.rotateShips}>
+          <button onClick={this.rotateShips} title="Rotate Ships">
             <i className="fa fa-repeat"></i>
           </button>
-          <button onClick={this.props.autoPlace}>
+          <button onClick={this.props.autoPlace} title="Autoplace Ships">
             <i className="fa fa-refresh"></i>
           </button>
-          <button onClick={this.props.clearBoard}>
+          <button onClick={this.props.clearBoard} title="Remove All Ships">
             <i className="fa fa-remove"></i>
           </button>
         </div>
