@@ -127,7 +127,7 @@ html {
   align-items: flex-end;
 }
 
-.buttons button {
+button {
   width: 53px;
   height: 53px;
   border: none;
@@ -140,7 +140,7 @@ html {
   text-align: center;
 }
 
-.buttons button:hover {
+button:hover {
   background-color: #e1e1e1;
 }
 
@@ -243,12 +243,15 @@ h1 {
   display: block;
   width: 100%;
   text-align: center;
+  margin: 0 0 25px 0;
+  font-size: 2.75rem;
 }
 
-.is-hidden {
-  display: none!important;
+.info {
+  display: flex;
+  margin: 0 0 25px 0;
 }
 
-.title {
-  color: red;
+.info h2 {
+  margin-right: 25px;
 }

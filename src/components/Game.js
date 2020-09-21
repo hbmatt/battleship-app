@@ -19,6 +19,7 @@ export class Game extends Component {
       computer,
       turn: 1,
       completed: false,
+      winner: null,
     };
   }
 
@@ -90,14 +91,49 @@ export class Game extends Component {
     this.declareWinner();
   };
 
+  resetGame = () => {
+    let player = new Player('player');
+    let computer = new Player('computer');
+    player.enemy = computer;
+    computer.enemy = player;
+    player.board.autoplaceShips();
+    computer.board.autoplaceShips();
+    this.setState({
+      player,
+      computer,
+      turn: 1,
+      completed: false,
+      winner: null,
+    });
+  }
+
   declareWinner = () => {
-    return this.state.winner ? "title" : "is-hidden";
+    if (this.state.winner === 'computer') {
+      return (
+        <div className="info">
+          <h2 className="winner">Too bad, the computer won!</h2>
+          <button onClick={this.resetGame} title="Play Again">
+            <i className="fa fa-refresh"></i>
+          </button>
+        </div>
+      )
+    } else if (this.state.winner === 'player') {
+      return (
+        <div className="info">
+          <h2 className="winner">Congrats! You've won!</h2>
+          <button onClick={this.resetGame} title="Play Again">
+            <i className="fa fa-refresh"></i>
+          </button>
+        </div>
+      )
+    }
   };
 
   render() {
     return (
       <div className="container">
-        <h1 className={this.declareWinner()}>Winner: {this.state.winner}</h1>
+        <h1>Battleship</h1>
+        {this.declareWinner()}
         <div className="wrapper">
           <div className="ships-wrapper">
             <Ships autoPlace={this.autoPlace} clearBoard={this.clearBoard} />
