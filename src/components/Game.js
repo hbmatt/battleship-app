@@ -10,29 +10,20 @@ export class Game extends Component {
     const computer = new Player("computer");
     player.enemy = computer;
     computer.enemy = player;
-    this.placeAllShips(player);
-    this.placeAllShips(computer);
-    this.state = { player, computer, turn: 1 };
+    player.board.autoplaceShips();
+    computer.board.autoplaceShips();
+    this.state = { player, computer, turn: 1, completed: false };
   }
-
-  placeAllShips = (player) => {
-    player.board.placeShip(3, [1, 1], "horizontal");
-    player.board.placeShip(3, [1, 3], "horizontal");
-    player.board.placeShip(5, [5, 1], "vertical");
-    player.board.placeShip(4, [9, 1], "vertical");
-    player.board.placeShip(2, [9, 10], "horizontal");
-  };
 
   getAttack = (coord) => {
     if (this.state.turn % 2 === 0 || this.state.winner) return;
 
     coord = coord.split(",");
     this.state.player.attack(coord);
-    let turn = this.state.turn + 1;
+    
     this.setState({
       player: this.state.player,
       computer: this.state.computer,
-      turn
     });
 
     this.isGameOver();
@@ -55,9 +46,9 @@ export class Game extends Component {
 
   isGameOver = () => {
     if (this.state.player.board.areAllSunk()) {
-      this.setState({ winner: this.state.computer.name });
+      this.setState({ winner: this.state.computer.name, completed: true });
     } else if (this.state.computer.board.areAllSunk()) {
-      this.setState({ winner: this.state.player.name });
+      this.setState({ winner: this.state.player.name, completed: true });
     } else {
       return false;
     }
@@ -76,12 +67,12 @@ export class Game extends Component {
         <div className="board-wrapper">
           <div className="board">
             <div className="grid">
-              <Board player={this.state.player} getAttack={this.getAttack} />
+              <Board player={this.state.player} getAttack={this.getAttack} completed={this.state.completed}/>
             </div>
           </div>
           <div className="board">
             <div className="grid">
-              <Board player={this.state.computer} getAttack={this.getAttack} />
+              <Board player={this.state.computer} getAttack={this.getAttack} completed={this.state.completed}/>
             </div>
           </div>
         </div>

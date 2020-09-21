@@ -9,7 +9,7 @@ export class Column extends Component {
         case "O":
           return "cell miss";
         default:
-          return "cell open";
+          return (this.props.completed) ? "cell" : "cell open";
       }
     }
 
@@ -22,13 +22,6 @@ export class Column extends Component {
         return "cell miss";
       default:
         return "cell ship";
-    }
-  };
-
-  onClick = (e) => {
-    if (this.props.player.name === "computer") {
-      let coord = e.target.getAttribute("datavalue");
-      console.log(coord);
     }
   };
 

@@ -12,6 +12,7 @@ export class Board extends Component {
           colId={id + 1}
           player={this.props.player}
           getAttack={this.props.getAttack}
+          completed={this.props.completed}
         />
       </div>
     ));
