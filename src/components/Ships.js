@@ -27,7 +27,12 @@ export class Ships extends Component {
         <div className={"ships " + this.state.direction}>
           {this.state.lengths.map((length, id) => (
             <div className={"ship " + this.state.direction} key={"class" + id}>
-              <Ship key={id} length={length} />
+              <Ship
+                key={id}
+                id={id}
+                length={length}
+                direction={this.state.direction}
+              />
             </div>
           ))}
         </div>

@@ -13,32 +13,41 @@ export class Game extends Component {
     computer.enemy = player;
     player.board.autoplaceShips();
     computer.board.autoplaceShips();
-    this.state = { player, computer, turn: 1, completed: false };
+    this.state = {
+      player,
+      computer,
+      turn: 1,
+      completed: false,
+    };
   }
 
   autoPlace = () => {
-    this.state.player.board.resetShips();
-    this.state.player.board.autoplaceShips();
+    let player = this.state.player;
 
-    this.setState({ player: this.state.player });
-  }
+    player.board.resetShips();
+    player.board.autoplaceShips();
+
+    this.setState({ player });
+  };
 
   clearBoard = () => {
-    this.state.player.board.resetShips();
-    
-    this.setState({ player: this.state.player });
-  }
+    let player = this.state.player;
+    player.board.resetShips();
+
+    this.setState({ player });
+  };
 
   getAttack = (coord) => {
     if (this.state.turn % 2 === 0 || this.state.winner) return;
 
-    coord = coord.split(",");
-    this.state.player.attack(coord);
+    let player = this.state.player;
 
-    this.setState({
-      player: this.state.player,
-      computer: this.state.computer,
-    });
+    coord = coord.split(",");
+    player.attack(coord);
+
+    let computer = player.enemy;
+
+    this.setState({ player, computer });
 
     this.isGameOver();
     this.computerAttack();
@@ -46,37 +55,40 @@ export class Game extends Component {
 
   noAttack = () => {
     return;
-  }
+  };
 
   computerAttack = () => {
-    if (this.state.computer.attack() === false) {
+    let computer = this.state.computer;
+
+    if (computer.attack() === false) {
       this.computerAttack();
     } else {
       let turn = this.state.turn + 2;
-      this.setState({
-        player: this.state.player,
-        computer: this.state.computer,
-        turn
-      });
+      let player = computer.enemy;
+
+      this.setState({ player, computer, turn });
     }
     this.isGameOver();
   };
 
   isGameOver = () => {
-    if (this.state.player.board.areAllSunk()) {
-      this.setState({ winner: this.state.computer.name, completed: true });
-    } else if (this.state.computer.board.areAllSunk()) {
-      this.setState({ winner: this.state.player.name, completed: true });
+    let player = this.state.player;
+    let computer = this.state.computer;
+
+    if (player.board.areAllSunk()) {
+      this.setState({ winner: computer.name, completed: true });
+    } else if (computer.board.areAllSunk()) {
+      this.setState({ winner: player.name, completed: true });
     } else {
       return false;
     }
 
     this.declareWinner();
-  }
+  };
 
   declareWinner = () => {
-    return (this.state.winner) ? "title" : "is-hidden"
-  }
+    return this.state.winner ? "title" : "is-hidden";
+  };
 
   render() {
     return (
@@ -88,15 +100,21 @@ export class Game extends Component {
           </div>
           <div className="board-wrapper">
             <div className="board">
-              <Board player={this.state.player} getAttack={this.noAttack} completed={this.state.completed}/>
+              <Board
+                player={this.state.player}
+                getAttack={this.noAttack}
+                completed={this.state.completed}
+              />
             </div>
             <div className="board">
-              <Board player={this.state.computer} getAttack={this.getAttack} completed={this.state.completed}/>
+              <Board
+                player={this.state.computer}
+                getAttack={this.getAttack}
+                completed={this.state.completed}
+              />
             </div>
           </div>
-          <div className="ships-wrapper">
-            Enemy ships here.
-          </div>
+          <div className="ships-wrapper">Enemy ships here.</div>
         </div>
       </div>
     );
