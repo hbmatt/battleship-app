@@ -31,7 +31,6 @@ export class Ships extends Component {
                 key={id}
                 id={id}
                 length={length}
-                direction={this.state.direction}
               />
             </div>
           ))}

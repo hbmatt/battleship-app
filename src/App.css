@@ -42,6 +42,7 @@ html {
 
 .ships-wrapper:last-of-type {
   margin: 0 0 0 25px;
+  justify-content: center;
 }
 
 .ships {
@@ -56,6 +57,13 @@ html {
 
 .ships.horizontal {
   flex-direction: column;
+  justify-content: center;
+}
+
+.ships.scoreboard {
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
 
 .ships .ship {
@@ -67,9 +75,18 @@ html {
   flex-direction: row;
 }
 
+.ships.scoreboard .ship.horizontal {
+  flex-direction: row-reverse;
+  align-self: flex-end;
+}
+
 .ships .ship.vertical {
   margin-right: 15px;
   flex-direction: column;
+}
+
+.ships .ship.sunk .block {
+  background-color: red;
 }
 
 .block {

@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Player } from "../factories/Player";
 import Board from "./Board";
 import Ships from "./Ships";
+import Scoreboard from "./Scoreboard";
 
 export class Game extends Component {
   constructor(props) {
@@ -114,7 +115,9 @@ export class Game extends Component {
               />
             </div>
           </div>
-          <div className="ships-wrapper">Enemy ships here.</div>
+          <div className="ships-wrapper">
+            <Scoreboard computer={this.state.computer} />
+          </div>
         </div>
       </div>
     );
