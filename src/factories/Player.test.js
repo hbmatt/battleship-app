@@ -1,7 +1,7 @@
 import { Player } from './Player'
 
-const player = new Player('player1');
-const enemy = new Player('computer');
+let player = new Player('player1');
+let enemy = new Player('computer');
 
 test('should initialize with name', () => {
   expect(player.name).toMatch('player1');
@@ -38,6 +38,21 @@ test('should not allow computer to shoot same coordinate twice', () => {
   expect(enemy.attack([1,1])).toBeFalsy();
 })
 
+test('computer should attack adjacent spots next when attack successful', () => {
+  player = new Player('player1');
+  enemy = new Player('computer');
+  player.enemy = enemy;
+  enemy.enemy = player;
+
+  player.board.placeShip(4,[7,1],'horizontal');
+  enemy.attack([7,1]);
+  enemy.attack();
+  enemy.attack();
+  enemy.attack();
+  expect(enemy.attacks).toContain('5, 0');
+  expect(enemy.attacks).toContain('6, 1');
+  expect(enemy.attacks).toContain('7, 0');
+})
 
 
 
