@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 
 import { Player } from "../factories/Player";
-import Board from "./layout/Board";
+import Board from "./Board";
+import Ships from "./Ships";
 
 export class Game extends Component {
   constructor(props) {
@@ -20,7 +21,7 @@ export class Game extends Component {
 
     coord = coord.split(",");
     this.state.player.attack(coord);
-    
+
     this.setState({
       player: this.state.player,
       computer: this.state.computer,
@@ -29,6 +30,10 @@ export class Game extends Component {
     this.isGameOver();
     this.computerAttack();
   };
+
+  noAttack = () => {
+    return;
+  }
 
   computerAttack = () => {
     if (this.state.computer.attack() === false) {
@@ -64,16 +69,20 @@ export class Game extends Component {
     return (
       <div className="container">
         <h1 className={this.declareWinner()}>Winner: {this.state.winner}</h1>
-        <div className="board-wrapper">
-          <div className="board">
-            <div className="grid">
-              <Board player={this.state.player} getAttack={this.getAttack} completed={this.state.completed}/>
-            </div>
+        <div className="wrapper">
+          <div className="ships-wrapper">
+            <Ships />
           </div>
-          <div className="board">
-            <div className="grid">
+          <div className="board-wrapper">
+            <div className="board">
+              <Board player={this.state.player} getAttack={this.noAttack} completed={this.state.completed}/>
+            </div>
+            <div className="board">
               <Board player={this.state.computer} getAttack={this.getAttack} completed={this.state.completed}/>
             </div>
+          </div>
+          <div className="ships-wrapper">
+            Enemy ships here.
           </div>
         </div>
       </div>

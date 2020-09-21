@@ -26,32 +26,113 @@ html {
   align-items: center;
 }
 
+.wrapper {
+  display: flex;
+}
+
+.ships-wrapper {
+  width: 200px;
+  flex: 1;
+  margin-right: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+.ships-wrapper:last-of-type {
+  margin: 0 0 0 25px;
+}
+
+.ships {
+  flex: 4;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ships.vertical {
+  flex-direction: row;
+}
+
+.ships.horizontal {
+  flex-direction: column;
+}
+
+.ships .ship {
+  display: flex;
+}
+
+.ships .ship.horizontal {
+  margin-bottom: 15px;
+  flex-direction: row;
+}
+
+.ships .ship.vertical {
+  margin-right: 15px;
+  flex-direction: column;
+}
+
+.block {
+  width: 34px;
+  height: 34px;
+  background-color: cornflowerblue;
+  margin: 1px;
+}
+
+.buttons {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+}
+
+.buttons button {
+  border: none;
+  background-color: #eee;
+  padding: 15px 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.buttons button:hover {
+  background-color: #e1e1e1;
+}
+
 .board-wrapper {
+  flex: 2;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .board {
-  height: 60vh;
-  width: 60vh;
-  max-height: 500px;
-  max-width: 500px;
-  padding: 30px;
+  height: 400px;
+  width: 400px;
+  padding: 19px 20px;
   border: 10px solid red;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
 }
 
-.grid {
-  display: grid;
-  height: 100%;
-  width: 100%;
-  grid-template-columns: repeat(10, 1fr);
-  border: 1px solid grey;
+.board:first-of-type {
+  margin-right: 25px;
 }
 
 .column {
   height: 100%;
   width: 100%;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+}
+
+.column:first-child {
+  border-left: 1px solid grey;
+  width: calc(100% + 1px);
+  margin-left: 1px;
+}
+
+.column:last-child {
+  border-right: 1px solid grey;
+  width: calc(100% + 1px);
+  margin-right: 1px;
 }
 
 .cell {
@@ -59,23 +140,23 @@ html {
   border: 1px solid grey;
 }
 
-.ship {
+.cell.ship {
   background-color: blue;
 }
 
-.hit {
+.cell.hit {
   background-color: red;
 }
 
-.miss {
+.cell.miss {
   background-color: yellow;
 }
 
-.open {
+.cell.open {
   cursor: pointer;
 }
 
-.open:hover {
+.cell.open:hover {
   background-color: #eee;
 }
 
