@@ -18,7 +18,7 @@ class Gameboard {
       this.isOffBoard(direction, x, y, length) ||
       this.isOccupied(direction, x, y, length)
     ) {
-      return;
+      return false;
     }
 
     const id = this.ships.length + 1;
@@ -35,6 +35,26 @@ class Gameboard {
     }
   };
 
+  autoplaceShips = () => {
+    let lengths = [2,3,3,4,5];
+    let i = 4;
+
+    while (this.ships.length < 5) {
+      let coord = this.getRandCoord();
+      let direction = this.getRandDirection();
+
+      let success = this.placeShip(lengths[i], coord, direction);
+
+      while (success === false) {
+        coord = this.getRandCoord();
+        direction = this.getRandDirection();
+        success = this.placeShip(lengths[i], coord, direction);
+      }
+      
+      i--;
+    }
+  }
+ 
   receiveAttack = (coordinates) => {
     const x = coordinates[0] - 1;
     const y = coordinates[1] - 1;
@@ -73,6 +93,14 @@ class Gameboard {
       }
     }
     return false;
+  }
+
+  getRandCoord() {
+    return [Math.floor(Math.random() * 10) + 1, Math.floor(Math.random() * 10) + 1];
+  }
+
+  getRandDirection() {
+    return Math.floor(Math.random() * 2) === 0 ? 'horizontal' : 'vertical';
   }
 }
 

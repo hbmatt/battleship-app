@@ -100,3 +100,10 @@ test('should add more than one ship', () => {
   expect(board.ships.length).toBe(5);
 })
 
+test('should autoplace all ships', () => {
+  let board = new Gameboard();
+  board.autoplaceShips();
+  expect(board.ships.length).toBe(5);
+})
+
+
