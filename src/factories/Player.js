@@ -8,27 +8,35 @@ class Player {
     this.attacks = [];
     this.successfulAttack = null;
     this.attackQueue = [];
+    this.attackedShip = null;
   }
 
   attack = (coordinates = this.getRandCoord()) => {
     if (this.name === "computer" && !this.isLegal(coordinates)) return false;
-    if (this.successfulAttack) {
-      this.getAdjacentCoords();
-      coordinates = this.attackQueue[0];
-      this.attackQueue.shift();
-    } else if (this.attackQueue.length > 0) {
+
+    if (this.successfulAttack) this.getAdjacentCoords();
+
+    if (this.attackQueue.length > 0) {
       coordinates = this.attackQueue[0];
       this.attackQueue.shift();
     }
 
     this.attacks.push(`${coordinates[0] - 1}, ${coordinates[1] - 1}`);
-    let success = this.enemy.board.receiveAttack(coordinates);
+    let id = this.enemy.board.receiveAttack(coordinates);
 
-    if (this.name === "computer" && success) {
+    if (this.name === "computer" && id) {
       this.successfulAttack = coordinates;
-      this.attackQueue = [];
+      this.attackedShip = this.enemy.board.ships[id - 1].ship;
     } else {
       this.successfulAttack = null;
+    }
+
+    if (this.attackedShip) {
+      if (this.attackedShip.isSunk()) {
+        this.successfulAttack = null;
+        this.attackQueue = [];
+        this.attackedShip = null;
+      }
     }
   };
 

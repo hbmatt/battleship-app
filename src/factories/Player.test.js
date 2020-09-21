@@ -54,5 +54,14 @@ test('computer should attack adjacent spots next when attack successful', () => 
   expect(enemy.attacks).toContain('7, 0');
 })
 
+test('should clear attack queue when ship sunk', () => {
+  enemy.attack();
+  enemy.attack();
+  enemy.attack();
+  enemy.attack();
+  enemy.attack();
+  expect(enemy.attacks).not.toContain('9, 1');
+  expect(enemy.attackQueue).toEqual([]);
+})
 
 

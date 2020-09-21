@@ -72,9 +72,10 @@ class Gameboard {
       const position = this.ships[id - 1].position.indexOf(`${x}, ${y}`);
       this.ships[id - 1].ship.hit(position + 1);
       this.grid[x][y] = "X";
-      return true;
+      return id;
     } else {
       this.grid[x][y] = "O";
+      return false;
     }
   };
 
