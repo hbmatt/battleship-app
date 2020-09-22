@@ -43,7 +43,7 @@ export class Column extends Component {
   };
 
   render() {
-    return this.props.col.reverse().map((cell, id) => (
+    return [...this.props.col].reverse().map((cell, id) => (
       <div
         key={`${this.props.colId}${10 - id}`}
         className={this.getClass(cell)}
