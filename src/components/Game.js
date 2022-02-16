@@ -1,129 +1,112 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
 import { Player } from "../factories/Player";
 import Board from "./Board";
 import Ships from "./Ships";
 import Scoreboard from "./Scoreboard";
 
-export class Game extends Component {
-  constructor(props) {
-    super(props);
-    const player = new Player("player");
-    const computer = new Player("computer");
-    player.enemy = computer;
-    computer.enemy = player;
-    player.board.autoplaceShips();
-    computer.board.autoplaceShips();
-    this.state = {
-      player,
-      computer,
-      turn: 1,
-      completed: false,
-      winner: null,
-    };
-  }
+const Game = () => {
+  const [player, setPlayer] = useState(new Player("player"));
+  const [computer, setComputer] = useState(new Player("computer"));
+  const [turn, setTurn] = useState(1);
+  const [completed, setCompleted] = useState(false);
+  const [winner, setWinner] = useState(null);
+  const [shipsPlaced, setShipsPlaced] = useState(false);
+  player.enemy = computer;
+  computer.enemy = player;
+  computer.board.autoplaceShips();
 
-  autoPlace = () => {
-    if (this.state.turn !== 1) return;
-    let player = this.state.player;
-
-    player.board.resetShips();
-    player.board.autoplaceShips();
-
-    this.setState({ player });
+  const autoPlace = () => {
+    if (turn !== 1) return;
+    let updatePlayer = player;
+    updatePlayer.board.resetShips();
+    updatePlayer.board.autoplaceShips();
+    setPlayer({...updatePlayer});
+    setShipsPlaced(true);
   };
 
-  clearBoard = () => {
-    if (this.state.turn !== 1) return;
-    let player = this.state.player;
+  const clearBoard = () => {
+    if (turn !== 1) return;
+    let updatePlayer = player;
     player.board.resetShips();
-
-    this.setState({ player });
+    setPlayer({...updatePlayer});
+    setShipsPlaced(false);
   };
 
-  getAttack = (coord) => {
-    if (this.state.turn % 2 === 0 || this.state.winner) return;
+  const getAttack = (coord) => {
+    if (!shipsPlaced || turn % 2 === 0 || winner) return;
 
-    let player = this.state.player;
-
+    let updatePlayer = player;
     coord = coord.split(",");
+    if (!updatePlayer.isLegal(coord)) return;
+    updatePlayer.attack(coord);
 
-    if (!player.isLegal(coord)) return;
+    let enemy = updatePlayer.enemy;
+    setPlayer({...updatePlayer});
+    setComputer({...enemy});
 
-    player.attack(coord);
-
-    let computer = player.enemy;
-
-    this.setState({ player, computer });
-
-    this.isGameOver();
-    this.computerAttack();
+    isGameOver();
+    computerAttack();
   };
 
-  noAttack = () => {
+  const noAttack = () => {
     return;
   };
 
-  computerAttack = () => {
-    let computer = this.state.computer;
-
-    if (computer.attack() === false) {
-      this.computerAttack();
+  const computerAttack = () => {
+    let updateComputer = computer;
+    if (updateComputer.attack() === false) {
+      computerAttack();
     } else {
-      let turn = this.state.turn + 2;
-      let player = computer.enemy;
-
-      this.setState({ player, computer, turn });
+      setTurn(turn + 2);
+      let enemy = updateComputer.enemy;
+      setPlayer({...enemy});
+      setComputer({...updateComputer});
     }
-    this.isGameOver();
+    isGameOver();
   };
 
-  isGameOver = () => {
-    let player = this.state.player;
-    let computer = this.state.computer;
-
-    if (player.board.areAllSunk()) {
-      this.setState({ winner: computer.name, completed: true });
+  const isGameOver = () => {
+    if (shipsPlaced && player.board.areAllSunk()) {
+      setWinner(computer.name);
+      setCompleted(true);
     } else if (computer.board.areAllSunk()) {
-      this.setState({ winner: player.name, completed: true });
+      setWinner(player.name);
+      setCompleted(true);
     } else {
       return false;
     }
 
-    this.declareWinner();
+    declareWinner();
   };
 
-  resetGame = () => {
-    let player = new Player('player');
-    let computer = new Player('computer');
+  const resetGame = () => {
+    setPlayer(new Player('player'));
+    setComputer(new Player('computer'));
     player.enemy = computer;
     computer.enemy = player;
-    player.board.autoplaceShips();
     computer.board.autoplaceShips();
-    this.setState({
-      player,
-      computer,
-      turn: 1,
-      completed: false,
-      winner: null,
-    });
+    setTurn(1);
+    setCompleted(false);
+    setWinner(null);
+    setShipsPlaced(false);
   }
 
-  declareWinner = () => {
-    if (this.state.winner === 'computer') {
+  const declareWinner = () => {
+    if (winner === 'computer') {
       return (
         <div className="info">
           <h2 className="winner">Too bad, the computer won!</h2>
-          <button onClick={this.resetGame} title="Play Again">
+          <button onClick={resetGame} title="Play Again">
             <i className="fa fa-refresh"></i>
           </button>
         </div>
       )
-    } else if (this.state.winner === 'player') {
+    } else if (winner === 'player') {
       return (
         <div className="info">
           <h2 className="winner">Congrats! You've won!</h2>
-          <button onClick={this.resetGame} title="Play Again">
+          <button onClick={resetGame} title="Play Again">
             <i className="fa fa-refresh"></i>
           </button>
         </div>
@@ -131,38 +114,41 @@ export class Game extends Component {
     }
   };
 
-  render() {
-    return (
-      <div className="container">
-        <h1>Battleship</h1>
-        {this.declareWinner()}
-        <div className="wrapper">
-          <div className="ships-wrapper">
-            <Ships autoPlace={this.autoPlace} clearBoard={this.clearBoard} />
+  return (
+    <div className="container">
+      <h1>Battleship</h1>
+      {turn === 1 && 
+        <div className="info">
+          <h2>Place your ships, then click on your enemy's board to start the game!</h2>
+        </div>
+      }
+      {declareWinner()}
+      <div className="wrapper">
+        <div className="ships-wrapper">
+          <Ships autoPlace={autoPlace} clearBoard={clearBoard} />
+        </div>
+        <div className="board-wrapper">
+          <div className="board">
+            <Board
+              player={player}
+              getAttack={noAttack}
+              completed={completed}
+            />
           </div>
-          <div className="board-wrapper">
-            <div className="board">
-              <Board
-                player={this.state.player}
-                getAttack={this.noAttack}
-                completed={this.state.completed}
-              />
-            </div>
-            <div className="board">
-              <Board
-                player={this.state.computer}
-                getAttack={this.getAttack}
-                completed={this.state.completed}
-              />
-            </div>
-          </div>
-          <div className="ships-wrapper">
-            <Scoreboard computer={this.state.computer} />
+          <div className="board">
+            <Board
+              player={computer}
+              getAttack={getAttack}
+              completed={completed}
+            />
           </div>
         </div>
+        <div className="ships-wrapper">
+          <Scoreboard computer={computer} />
+        </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Game;
