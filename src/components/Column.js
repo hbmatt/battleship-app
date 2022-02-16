@@ -51,6 +51,7 @@ export class Column extends Component {
           this,
           `${this.props.colId},${10 - id}`
         )}
+        onDragEnter={(e) => this.props.player.name === 'player' ? this.props.onDragEnter(e, [this.props.colId, 10 - id]) : ''}
       >
         {this.getText(cell)}
       </div>

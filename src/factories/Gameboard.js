@@ -10,6 +10,9 @@ class Gameboard {
   }
 
   placeShip = (length, coordinates, direction) => {
+    if (this.areAllPlaced()) return;
+    if (this.isAlreadyPlaced(length)) return;
+
     const ship = new Ship(length);
     const x = coordinates[0] - 1;
     const y = coordinates[1] - 1;
@@ -29,8 +32,8 @@ class Gameboard {
         this.grid[x + i][y] = id;
         this.ships[id - 1].position.push(`${x + i}, ${y}`);
       } else {
-        this.grid[x][y + i] = id;
-        this.ships[id - 1].position.push(`${x}, ${y + i}`);
+        this.grid[x][y - i] = id;
+        this.ships[id - 1].position.push(`${x}, ${y - i}`);
       }
     }
   };
@@ -85,7 +88,7 @@ class Gameboard {
 
   isOffBoard(direction, x, y, length) {
     return (direction === "horizontal" && x + length - 1 < 10) ||
-      (direction === "vertical" && y + length - 1 < 10)
+      (direction === "vertical" && y - length + 1 >= 0)
       ? false
       : true;
   }
@@ -97,12 +100,31 @@ class Gameboard {
           return true;
         }
       } else {
-        if (this.grid[x][y + i] !== 0) {
+        if (this.grid[x][y - i] !== 0) {
           return true;
         }
       }
     }
     return false;
+  }
+
+  areAllPlaced() {
+    return this.ships.length === 5 ? true : false
+  }
+
+  isAlreadyPlaced(length) {
+    let existing = this.ships.reduce((prev, curr) => {
+      if (curr.ship.length === length) {
+        prev.push(true)
+      }
+      return prev
+    }, []);
+
+    if (length === 3) {
+      return existing.length > 1 ? true : false
+    } else {
+      return existing.length > 0 ? true : false
+    }
   }
 
   getRandCoord() {

@@ -13,6 +13,8 @@ export class Board extends Component {
           player={this.props.player}
           getAttack={this.props.getAttack}
           completed={this.props.completed}
+          onDragEnter={this.props.onDragEnter}
+          onDragLeave={(e) => this.props.player.name === 'player' ? this.props.onDragLeave(e) : ''}
         />
       </div>
     ));

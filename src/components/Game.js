@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 
 import { Player } from "../factories/Player";
 import Board from "./Board";
@@ -114,6 +114,35 @@ const Game = () => {
     }
   };
 
+  const dragItem = useRef();
+  const dragOverItem = useRef();
+
+  const onDragStart = (e, position) => {
+    if (shipsPlaced) return;
+    dragItem.current = position;
+  }
+
+  const onDragEnter = (e, position) => {
+    if (shipsPlaced) return;
+    dragOverItem.current = position;
+    console.log(dragOverItem.current);
+  }
+
+  const onDragLeave = (e) => {
+    dragOverItem.current = null;
+  }
+
+  const drop = (e) => {
+    if (shipsPlaced || !dragOverItem.current) return;
+    let updatePlayer = player;
+    updatePlayer.board.placeShip(dragItem.current[0], dragOverItem.current, dragItem.current[1]);
+
+    setPlayer({...updatePlayer});
+    if (player.board.ships.length === 5) setShipsPlaced(true);
+    dragItem.current = null;
+    dragOverItem.current = null;
+  }
+
   return (
     <div className="container">
       <h1>Battleship</h1>
@@ -125,7 +154,7 @@ const Game = () => {
       {declareWinner()}
       <div className="wrapper">
         <div className="ships-wrapper">
-          <Ships autoPlace={autoPlace} clearBoard={clearBoard} />
+          <Ships autoPlace={autoPlace} clearBoard={clearBoard} onDragStart={onDragStart} onDragEnd={drop} />
         </div>
         <div className="board-wrapper">
           <div className="board">
@@ -133,6 +162,8 @@ const Game = () => {
               player={player}
               getAttack={noAttack}
               completed={completed}
+              onDragEnter={onDragEnter}
+              onDragLeave={onDragLeave}
             />
           </div>
           <div className="board">

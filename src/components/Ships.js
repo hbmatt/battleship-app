@@ -26,7 +26,13 @@ export class Ships extends Component {
       <>
         <div className={"ships " + this.state.direction}>
           {this.state.lengths.map((length, id) => (
-            <div className={"ship " + this.state.direction} key={"class" + id}>
+            <div
+              className={"ship " + this.state.direction}
+              key={"class" + id}
+              draggable
+              onDragStart={(e) => this.props.onDragStart(e, [length.length, this.state.direction])}
+              onDragEnd={(e) => this.props.onDragEnd(e)}
+            >
               <Ship
                 key={id}
                 id={id}
