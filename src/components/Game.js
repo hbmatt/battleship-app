@@ -24,6 +24,7 @@ export class Game extends Component {
   }
 
   autoPlace = () => {
+    if (this.state.turn !== 1) return;
     let player = this.state.player;
 
     player.board.resetShips();
@@ -33,6 +34,7 @@ export class Game extends Component {
   };
 
   clearBoard = () => {
+    if (this.state.turn !== 1) return;
     let player = this.state.player;
     player.board.resetShips();
 
