@@ -22,12 +22,13 @@ html {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
 .wrapper {
   display: flex;
+  margin: 0 auto auto auto;
+  padding: 0 25px;
 }
 
 .ships-wrapper {
@@ -241,7 +242,7 @@ h1 {
   display: block;
   width: 100%;
   text-align: center;
-  margin: 0 0 25px 0;
+  margin: auto 0 25px 0;
   font-size: 2.75rem;
 }
 
