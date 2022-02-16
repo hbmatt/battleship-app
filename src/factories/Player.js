@@ -40,7 +40,7 @@ class Player {
     }
   };
 
-  isLegal(coordinates) {
+  isLegal = (coordinates) => {
     return this.attacks.find(
       (pos) => pos === `${coordinates[0] - 1}, ${coordinates[1] - 1}`
     )
